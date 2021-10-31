@@ -30,14 +30,14 @@ function onSelectImage(event) {
     `<img src="${event.target.dataset.source}">`,
     {
       onClose: () => {
-            document.removeEventListener('keydown', onEscClisk);
+            document.removeEventListener('keydown', onEscClick);
         },
     }
   );
   instance.show();
 
-  document.addEventListener('keydown', onEscClisk);
-  function onEscClisk(event) {
+  document.addEventListener('keydown', onEscClick);
+  function onEscClick(event) {
     if (event.keyCode === 27) {
       instance.close();
     }
