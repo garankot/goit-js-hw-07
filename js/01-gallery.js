@@ -20,27 +20,25 @@ gallery.insertAdjacentHTML('beforeend', createItem);
 
 gallery.addEventListener('click', onSelectImage);
 
+const instance = basicLightbox.create(`<img src="" />`, {
+  onShow: () => {
+    window.addEventListener('keydown', onEscClick);
+  },
+  onClose: () => {
+    window.removeEventListener('keydown', onEscClick);
+  },
+});
+
+function onEscClick(event) {
+  if (event.keyCode === 27) {
+    instance.close();
+  }
+};
+
 function onSelectImage(event) {
-  if (!event.target.classList.contains('gallery__image')) {
-    return;
+    event.preventDefault();
+    instance.element().querySelector('img').src = event.target.dataset.source;
+    instance.show();
   }
-  event.preventDefault();
-
-  const instance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}">`,
-    {
-      onClose: () => {
-            document.removeEventListener('keydown', onEscClick);
-        },
-    }
-  );
-  instance.show();
-
-  document.addEventListener('keydown', onEscClick);
-  function onEscClick(event) {
-    if (event.keyCode === 27) {
-      instance.close();
-    }
-  }
-}
+  
 console.log(galleryItems);
