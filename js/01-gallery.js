@@ -20,26 +20,30 @@ gallery.insertAdjacentHTML('beforeend', createItem);
 
 gallery.addEventListener('click', onSelectImage);
 
-
-
-function onEscClick(event) {
-  if (event.keyCode === 27) {
-    instance.close();
-  }
-};
-// const image = document.querySelector('gallery__item').src = event.target.dataset.source
 function onSelectImage(event) {
-    event.preventDefault();
-    const instance = basicLightbox.create(`<img src = "${event.target.dataset.source}" />`, {
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+  const instance = basicLightbox.create(
+    `<img src = "${event.target.dataset.source}" />`,
+    {
       onShow: () => {
         window.addEventListener('keydown', onEscClick);
       },
       onClose: () => {
         window.removeEventListener('keydown', onEscClick);
       },
-    });
-    // instance.element().querySelector('img').src = event.target.dataset.source;
-    instance.show();
+    }
+  );
+
+  // instance.element().querySelector('img').src = event.target.dataset.source;
+  instance.show();
+  function onEscClick(event) {
+    if (event.keyCode === 27) {
+      instance.close();
+    }
   }
-  
+}
+
 console.log(galleryItems);
